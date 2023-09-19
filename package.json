@@ -1,0 +1,21 @@
+{
+  "name": "todo-graphql",
+  "version": "1.0.0",
+  "repository": "git@github.com:shahzod418/todo-graphql.git",
+  "author": "Davlatov Shahzod",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "yarn workspace frontend run dev & yarn workspace backend run start:dev",
+    "build": "yarn workspace frontend run build & yarn workspace backend run build",
+    "start": "yarn build && yarn workspace backend run start:prod",
+    "lint": "yarn workspace frontend run lint & yarn workspace backend run lint",
+    "type": "yarn workspace frontend run type & yarn workspace backend run type",
+    "prisma:generate": "yarn workspace backend run prisma generate",
+    "prisma:migrate:dev": "yarn workspace backend run prisma migrate dev --name init"
+  }
+}

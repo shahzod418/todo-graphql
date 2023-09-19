@@ -1,0 +1,49 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateTaskInput {
+  description: String
+  title: String!
+  userId: String!
+}
+
+input CreateUserInput {
+  id: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  completeTask(taskId: String!): Task!
+  createTask(createTaskInput: CreateTaskInput!): Task!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateTask(taskId: String!, updateTaskInput: UpdateTaskInput!): Task!
+}
+
+type Query {
+  tasks: [Task!]!
+  users: [User!]!
+}
+
+type Task {
+  completed: Boolean!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  title: String!
+  updatedAt: DateTime!
+  userId: String!
+}
+
+input UpdateTaskInput {
+  description: String!
+  title: String!
+}
+
+type User {
+  id: ID!
+}
