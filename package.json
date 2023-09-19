@@ -12,10 +12,13 @@
   "scripts": {
     "dev": "yarn workspace frontend run dev & yarn workspace backend run start:dev",
     "build": "yarn workspace frontend run build & yarn workspace backend run build",
-    "start": "yarn build && yarn workspace backend run start:prod",
+    "start": "yarn build && yarn workspace backend run start",
+    "start:prod": "yarn prisma:migrate:prod && yarn build && yarn workspace backend run start:prod",
     "lint": "yarn workspace frontend run lint & yarn workspace backend run lint",
     "type": "yarn workspace frontend run type & yarn workspace backend run type",
     "prisma:generate": "yarn workspace backend run prisma generate",
+    "prisma:push": "yarn workspace backend run prisma db push",
+    "prisma:migrate:prod": "yarn prisma:push && yarn workspace backend run prisma migrate deploy",
     "prisma:migrate:dev": "yarn workspace backend run prisma migrate dev --name init"
   }
 }
