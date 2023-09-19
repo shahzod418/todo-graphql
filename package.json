@@ -12,8 +12,9 @@
   "scripts": {
     "dev": "yarn workspace frontend run dev & yarn workspace backend run start:dev",
     "build": "yarn workspace frontend run build & yarn workspace backend run build",
+    "build:prod": "yarn prisma:migrate:prod && yarn build",
     "start": "yarn build && yarn workspace backend run start",
-    "start:prod": "yarn prisma:migrate:prod && yarn build && yarn workspace backend run start:prod",
+    "start:prod": "yarn workspace backend run start:prod",
     "lint": "yarn workspace frontend run lint & yarn workspace backend run lint",
     "type": "yarn workspace frontend run type & yarn workspace backend run type",
     "prisma:generate": "yarn workspace backend run prisma generate",
