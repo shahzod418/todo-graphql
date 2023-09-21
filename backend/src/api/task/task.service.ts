@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Task } from '@prisma/client';
+import { Task, User } from '@prisma/client';
 
 import { DatabaseService } from '../../database/database.service';
 
@@ -18,18 +18,28 @@ export class TaskService {
     });
   }
 
-  findAll() {
-    return this.db.task.findMany();
+  findAll(userId: User['id']) {
+    return this.db.task.findMany({ where: { userId } });
   }
 
-  update(taskId: Task['id'], data: UpdateTaskInput) {
-    return this.db.task.update({ where: { id: taskId }, data });
+  update(args: {
+    userId: User['id'];
+    taskId: Task['id'];
+    data: UpdateTaskInput;
+  }) {
+    const { userId, taskId, data } = args;
+
+    return this.db.task.update({ where: { id: taskId, userId }, data });
   }
 
-  complete(taskId: Task['id']) {
+  complete(userId: User['id'], taskId: Task['id']) {
     return this.db.task.update({
-      where: { id: taskId },
+      where: { id: taskId, userId },
       data: { completed: true },
     });
+  }
+
+  remove(userId: User['id'], taskIds: Task['id'][]) {
+    return this.db.task.deleteMany({ where: { id: { in: taskIds }, userId } });
   }
 }

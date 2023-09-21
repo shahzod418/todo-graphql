@@ -11,9 +11,10 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+
   app.setGlobalPrefix('api');
 
-  await app.listen(3000);
+  await app.listen(80, '0.0.0.0');
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

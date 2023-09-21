@@ -1,6 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { User } from '@prisma/client';
 
 import { Task } from './model/task.model';
+import { Count } from './model/count.model';
 
 import { CreateTaskInput } from './dto/create-task.input';
 import { UpdateTaskInput } from './dto/update-task.input';
@@ -12,8 +14,8 @@ export class TaskResolver {
   constructor(private readonly taskService: TaskService) {}
 
   @Query(() => [Task])
-  tasks() {
-    return this.taskService.findAll();
+  tasks(@Args('userId', { type: () => String }) userId: User['id']) {
+    return this.taskService.findAll(userId);
   }
 
   @Mutation(() => Task)
@@ -23,14 +25,26 @@ export class TaskResolver {
 
   @Mutation(() => Task)
   updateTask(
+    @Args('userId', { type: () => String }) userId: User['id'],
     @Args('taskId', { type: () => String }) taskId: Task['id'],
     @Args('updateTaskInput') data: UpdateTaskInput,
   ) {
-    return this.taskService.update(taskId, data);
+    return this.taskService.update({ userId, taskId, data });
   }
 
   @Mutation(() => Task)
-  completeTask(@Args('taskId', { type: () => String }) taskId: Task['id']) {
-    return this.taskService.complete(taskId);
+  completeTask(
+    @Args('userId', { type: () => String }) userId: User['id'],
+    @Args('taskId', { type: () => String }) taskId: Task['id'],
+  ) {
+    return this.taskService.complete(userId, taskId);
+  }
+
+  @Mutation(() => Count)
+  removeTask(
+    @Args('userId', { type: () => String }) userId: User['id'],
+    @Args('taskIds', { type: () => [String] }) taskIds: Task['id'][],
+  ) {
+    return this.taskService.remove(userId, taskIds);
   }
 }

@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Task as ITask } from '@prisma/client';
+import { Task as ITask, User } from '@prisma/client';
 
 @ObjectType()
 export class Task implements ITask {
@@ -21,6 +21,6 @@ export class Task implements ITask {
   @Field()
   updatedAt: Date;
 
-  @Field()
-  userId: string;
+  @Field(() => ID)
+  userId: User['id'];
 }
