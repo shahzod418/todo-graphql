@@ -18,8 +18,19 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": "./",
+    "paths": {
+      "@graphql": ["src/graphql"],
+      "@pages/*": ["src/pages/*"],
+      "@features/*": ["src/features/*"],
+      "@entities/*": ["src/entities/*"],
+      "@locales/*": ["src/locales/*"],
+      "@config": ["src/shared/config"],
+      "@hooks/*": ["src/shared/hooks/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["src", "codegen.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

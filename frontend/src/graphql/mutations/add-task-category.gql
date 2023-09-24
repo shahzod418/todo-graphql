@@ -1,0 +1,11 @@
+mutation AddTaskCategory($taskCategoryInput: TaskCategoryInput!) {
+  addTaskCategory(taskCategoryInput: $taskCategoryInput) {
+    id
+    category {
+      id
+      title
+      color
+    }
+    updatedAt
+  }
+}

@@ -1,0 +1,7 @@
+query Categories($categoriesInput: CategoriesInput!) {
+  categories(categoriesInput: $categoriesInput) {
+    id
+    title
+    color
+  }
+}

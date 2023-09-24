@@ -1,45 +1,73 @@
 import { Injectable } from '@nestjs/common';
-import { Task, User } from '@prisma/client';
 
-import { DatabaseService } from '../../database/database.service';
+import { DatabaseService } from '@database/database.service';
 
+import { TasksInput } from './dto/tasks.input';
 import { CreateTaskInput } from './dto/create-task.input';
 import { UpdateTaskInput } from './dto/update-task.input';
+import { CompleteTaskInput } from './dto/complete-task.input';
+import { RemoveTaskInput } from './dto/remove-task.input';
 
 @Injectable()
 export class TaskService {
+  private readonly dbInclude = {
+    category: { select: { title: true, color: true } },
+  };
+
   constructor(private readonly db: DatabaseService) {}
 
-  create(data: CreateTaskInput) {
-    const { userId, ...taskInput } = data;
+  findAll(data: TasksInput) {
+    const { userId } = data;
 
-    return this.db.task.create({
-      data: { ...taskInput, user: { connect: { id: userId } } },
+    return this.db.task.findMany({
+      where: { userId },
+      include: this.dbInclude,
     });
   }
 
-  findAll(userId: User['id']) {
-    return this.db.task.findMany({ where: { userId } });
+  create(data: CreateTaskInput) {
+    const { userId, categoryId, ...taskInput } = data;
+
+    return this.db.task.create({
+      include: {
+        category: {
+          select: { title: true, color: true },
+          where: { userId },
+        },
+      },
+      data: {
+        ...taskInput,
+        user: { connect: { id: userId } },
+        category: { connect: { id: categoryId } },
+      },
+    });
   }
 
-  update(args: {
-    userId: User['id'];
-    taskId: Task['id'];
-    data: UpdateTaskInput;
-  }) {
-    const { userId, taskId, data } = args;
+  update(data: UpdateTaskInput) {
+    const { userId, taskId, ...updateInput } = data;
 
-    return this.db.task.update({ where: { id: taskId, userId }, data });
-  }
-
-  complete(userId: User['id'], taskId: Task['id']) {
     return this.db.task.update({
       where: { id: taskId, userId },
+      include: this.dbInclude,
+      data: updateInput,
+    });
+  }
+
+  complete(data: CompleteTaskInput) {
+    const { userId, taskId } = data;
+
+    return this.db.task.update({
+      where: { id: taskId, userId },
+      include: this.dbInclude,
       data: { completed: true },
     });
   }
 
-  remove(userId: User['id'], taskIds: Task['id'][]) {
-    return this.db.task.deleteMany({ where: { id: { in: taskIds }, userId } });
+  remove(data: RemoveTaskInput) {
+    const { userId, taskIds } = data;
+
+    return this.db.task.deleteMany({
+      where: { id: { in: taskIds }, userId },
+    });
   }
 }

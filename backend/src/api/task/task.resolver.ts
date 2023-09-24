@@ -1,11 +1,14 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { User } from '@prisma/client';
+
+import { Count } from '@model/count.model';
 
 import { Task } from './model/task.model';
-import { Count } from './model/count.model';
 
+import { TasksInput } from './dto/tasks.input';
 import { CreateTaskInput } from './dto/create-task.input';
 import { UpdateTaskInput } from './dto/update-task.input';
+import { CompleteTaskInput } from './dto/complete-task.input';
+import { RemoveTaskInput } from './dto/remove-task.input';
 
 import { TaskService } from './task.service';
 
@@ -14,8 +17,8 @@ export class TaskResolver {
   constructor(private readonly taskService: TaskService) {}
 
   @Query(() => [Task])
-  tasks(@Args('userId', { type: () => String }) userId: User['id']) {
-    return this.taskService.findAll(userId);
+  tasks(@Args('tasksInput') data: TasksInput) {
+    return this.taskService.findAll(data);
   }
 
   @Mutation(() => Task)
@@ -24,27 +27,17 @@ export class TaskResolver {
   }
 
   @Mutation(() => Task)
-  updateTask(
-    @Args('userId', { type: () => String }) userId: User['id'],
-    @Args('taskId', { type: () => String }) taskId: Task['id'],
-    @Args('updateTaskInput') data: UpdateTaskInput,
-  ) {
-    return this.taskService.update({ userId, taskId, data });
+  updateTask(@Args('updateTaskInput') data: UpdateTaskInput) {
+    return this.taskService.update(data);
   }
 
   @Mutation(() => Task)
-  completeTask(
-    @Args('userId', { type: () => String }) userId: User['id'],
-    @Args('taskId', { type: () => String }) taskId: Task['id'],
-  ) {
-    return this.taskService.complete(userId, taskId);
+  completeTask(@Args('completeTaskInput') data: CompleteTaskInput) {
+    return this.taskService.complete(data);
   }
 
   @Mutation(() => Count)
-  removeTask(
-    @Args('userId', { type: () => String }) userId: User['id'],
-    @Args('taskIds', { type: () => [String] }) taskIds: Task['id'][],
-  ) {
-    return this.taskService.remove(userId, taskIds);
+  removeTask(@Args('removeTaskInput') data: RemoveTaskInput) {
+    return this.taskService.remove(data);
   }
 }

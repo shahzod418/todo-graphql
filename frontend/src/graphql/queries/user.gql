@@ -1,0 +1,5 @@
+query User($userInput: UserInput!) {
+  user(userInput: $userInput) {
+    id
+  }
+}

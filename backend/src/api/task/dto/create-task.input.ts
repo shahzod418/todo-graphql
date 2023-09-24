@@ -1,5 +1,6 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { Prisma, User } from '@prisma/client';
+import { Field, InputType, ID } from '@nestjs/graphql';
+
+import { Prisma, User as IUser, Category as ICategory } from '@prisma/client';
 
 @InputType()
 export class CreateTaskInput
@@ -11,6 +12,9 @@ export class CreateTaskInput
   @Field({ nullable: true })
   description?: string;
 
-  @Field(() => String)
-  userId: User['id'];
+  @Field(() => ID)
+  userId: IUser['id'];
+
+  @Field(() => ID, { nullable: true })
+  categoryId?: ICategory['id'];
 }

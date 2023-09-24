@@ -1,0 +1,5 @@
+mutation RemoveTask($removeTaskInput: RemoveTaskInput!) {
+  removeTask(removeTaskInput: $removeTaskInput) {
+    count
+  }
+}

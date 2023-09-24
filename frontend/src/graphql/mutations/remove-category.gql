@@ -1,0 +1,5 @@
+mutation RemoveCategory($removeCategoryInput: RemoveCategoryInput!) {
+  removeCategory(removeCategoryInput: $removeCategoryInput) {
+    count
+  }
+}

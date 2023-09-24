@@ -1,8 +1,11 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Task as ITask, User } from '@prisma/client';
+
+import { Task as ITask, Category as ICategory } from '@prisma/client';
+
+import { Category } from '@model/category.model';
 
 @ObjectType()
-export class Task implements ITask {
+export class Task implements Omit<ITask, 'createdAt' | 'userId'> {
   @Field(() => ID)
   id: string;
 
@@ -16,11 +19,8 @@ export class Task implements ITask {
   description: string;
 
   @Field()
-  createdAt: Date;
-
-  @Field()
   updatedAt: Date;
 
-  @Field(() => ID)
-  userId: User['id'];
+  @Field(() => [Category])
+  category: Pick<ICategory, 'title' | 'color'>[];
 }

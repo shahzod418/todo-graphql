@@ -1,0 +1,14 @@
+mutation CreateTask($createTaskInput: CreateTaskInput!) {
+  createTask(createTaskInput: $createTaskInput) {
+    id
+    title
+    description
+    completed
+    category {
+      id
+      title
+      color
+    }
+    updatedAt
+  }
+}

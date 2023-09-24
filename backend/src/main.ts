@@ -6,15 +6,18 @@ import {
 
 import { AppModule } from './app/app.module';
 
+const PORT = 80;
+const HOST = '0.0.0.0';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
   );
 
-  app.setGlobalPrefix('api');
+  app.enableCors();
 
-  await app.listen(80, '0.0.0.0');
+  await app.listen(PORT, HOST);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

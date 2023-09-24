@@ -1,0 +1,14 @@
+query Tasks($tasksInput: TasksInput!) {
+  tasks(tasksInput: $tasksInput) {
+    id
+    title
+    description
+    completed
+    category {
+      id
+      title
+      color
+    }
+    updatedAt
+  }
+}

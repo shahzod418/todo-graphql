@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
 
-import { DatabaseService } from '../../database/database.service';
+import { DatabaseService } from '@database/database.service';
 
-import { CreateUserInput } from './dto/create-user.input';
+import { UserInput } from './dto/user.input';
 
 @Injectable()
 export class UserService {
   constructor(private readonly db: DatabaseService) {}
 
-  create(data: CreateUserInput) {
-    return this.db.user.create({ data });
+  find(data: UserInput) {
+    const { userId } = data;
+
+    return this.db.user.findUnique({ where: { id: userId } });
   }
 
-  async findAll() {
-    return await this.db.user.findMany();
+  create() {
+    return this.db.user.create({ data: {} });
   }
 }

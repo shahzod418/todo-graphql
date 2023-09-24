@@ -5,7 +5,33 @@ const prisma = new PrismaClient();
 const userData: Prisma.UserCreateInput[] = [
   {
     id: 'test',
-    task: { create: { title: 'test', completed: true } },
+    task: {
+      create: [
+        {
+          title: 'First test task',
+          completed: true,
+          category: {
+            create: {
+              title: 'First test category',
+              userId: 'test',
+              color: 'red',
+            },
+          },
+        },
+        {
+          title: 'Second test task',
+          category: {
+            create: [
+              { title: 'Second test category', userId: 'test', color: 'green' },
+              { title: 'Third test category', userId: 'test', color: 'blue' },
+            ],
+          },
+        },
+        {
+          title: 'Third test task',
+        },
+      ],
+    },
   },
 ];
 

@@ -1,0 +1,14 @@
+mutation CompleteTask($completeTaskInput: CompleteTaskInput!) {
+  completeTask(completeTaskInput: $completeTaskInput) {
+    id
+    title
+    description
+    completed
+    category {
+      id
+      title
+      color
+    }
+    updatedAt
+  }
+}

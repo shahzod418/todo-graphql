@@ -1,0 +1,11 @@
+mutation RemoveTaskCategory($taskCategoryInput: TaskCategoryInput!) {
+  removeTaskCategory(taskCategoryInput: $taskCategoryInput) {
+    id
+    category {
+      id
+      title
+      color
+    }
+    updatedAt
+  }
+}

@@ -1,0 +1,117 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CategoriesInput {
+  userId: ID!
+}
+
+type Category {
+  color: String!
+  id: ID!
+  title: String!
+}
+
+input CompleteTaskInput {
+  taskId: ID!
+  userId: ID!
+}
+
+type Count {
+  count: Float!
+}
+
+input CreateCategoryInput {
+  color: String
+  title: String!
+  userId: ID!
+}
+
+input CreateTaskInput {
+  categoryId: ID
+  description: String
+  title: String!
+  userId: ID!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  addTaskCategory(taskCategoryInput: TaskCategoryInput!): TaskCategory!
+  completeTask(completeTaskInput: CompleteTaskInput!): Task!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  createTask(createTaskInput: CreateTaskInput!): Task!
+  createUser: User!
+  removeCategory(removeCategoryInput: RemoveCategoryInput!): Count!
+  removeTask(removeTaskInput: RemoveTaskInput!): Count!
+  removeTaskCategory(taskCategoryInput: TaskCategoryInput!): TaskCategory!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  updateTask(updateTaskInput: UpdateTaskInput!): Task!
+}
+
+type Query {
+  categories(categoriesInput: CategoriesInput!): [Category!]!
+  tasks(tasksInput: TasksInput!): [Task!]!
+  user(userInput: UserInput!): User
+}
+
+input RemoveCategoryInput {
+  categoryIds: [ID!]!
+  userId: ID!
+}
+
+input RemoveTaskInput {
+  taskIds: [ID!]!
+  userId: ID!
+}
+
+type Task {
+  category: [Category!]!
+  completed: Boolean!
+  description: String
+  id: ID!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type TaskCategory {
+  category: [Category!]!
+  id: ID!
+  updatedAt: DateTime!
+}
+
+input TaskCategoryInput {
+  categoryId: ID!
+  taskId: ID!
+  userId: ID!
+}
+
+input TasksInput {
+  userId: ID!
+}
+
+input UpdateCategoryInput {
+  categoryId: ID!
+  color: String
+  id: ID!
+  title: String
+  userId: ID!
+}
+
+input UpdateTaskInput {
+  description: String
+  taskId: ID!
+  title: String
+  userId: ID!
+}
+
+type User {
+  id: ID!
+}
+
+input UserInput {
+  userId: ID!
+}
